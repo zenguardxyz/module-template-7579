@@ -10,13 +10,16 @@ import { LibSort } from "solady/utils/LibSort.sol";
 import { CheckSignatures } from "checknsignatures/CheckNSignatures.sol";
 import { ECDSA } from "solady/utils/ECDSA.sol";
 
+import {BasePluginWithEventMetadata, PluginMetadata} from "../module-bases/Base.sol";
+
+
 /**
  * @title OwnableValidator
  * @dev Module that allows users to designate EOA owners that can validate transactions using a
  * threshold
  * @author Rhinestone
  */
-contract OwnableValidator is ERC7579ValidatorBase {
+contract OwnableValidator is ERC7579ValidatorBase, BasePluginWithEventMetadata {
     using LibSort for *;
     using SignatureCheckerLib for address;
     using SentinelList4337Lib for SentinelList4337Lib.SentinelList;
@@ -40,6 +43,23 @@ contract OwnableValidator is ERC7579ValidatorBase {
     mapping(address account => uint256) public threshold;
     // account => ownerCount
     mapping(address => uint256) public ownerCount;
+
+
+    constructor(
+    )
+    BasePluginWithEventMetadata(
+            PluginMetadata({
+                name: "OwnableValidator",
+                version: "1.0.0",
+                requiresRootAccess: false,
+                iconUrl: "https://safe-validator.zenguard.xyz/assets/key-346bc9bd.svg",
+                appUrl: "https://safe-validator.zenguard.xyz",
+                hook: false
+            })
+        )
+    {
+
+    }
 
     /*//////////////////////////////////////////////////////////////////////////
                                      CONFIG
@@ -386,21 +406,4 @@ contract OwnableValidator is ERC7579ValidatorBase {
         return typeID == TYPE_VALIDATOR;
     }
 
-    /**
-     * Returns the name of the module
-     *
-     * @return name of the module
-     */
-    function name() external pure virtual returns (string memory) {
-        return "OwnableValidator";
-    }
-
-    /**
-     * Returns the version of the module
-     *
-     * @return version of the module
-     */
-    function version() external pure virtual returns (string memory) {
-        return "1.0.0";
-    }
 }

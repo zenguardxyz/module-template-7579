@@ -80,6 +80,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.2",
     "@safe-global/safe-contracts": "^1.3.0",
+    "@safe-global/safe-core-protocol": "github:zenguardxyz/registry-manager#feature/module-attestation-eas",
     "forge-std": "github:foundry-rs/forge-std",
     "viem": "^2.9.31"
   }
